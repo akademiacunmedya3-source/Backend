@@ -7,7 +7,7 @@ namespace Harfistan.Persistence.DbContexts;
 public class HarfistanDbContext(DbContextOptions<HarfistanDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
-    public DbSet<UserStats> UserStats { get; set; }
+    public DbSet<UserStat> UserStats { get; set; }
     public DbSet<UserSession> UserSessions { get; set; }
     public DbSet<Word> Words { get; set; }
     public DbSet<DailyWord> DailyWords { get; set; }

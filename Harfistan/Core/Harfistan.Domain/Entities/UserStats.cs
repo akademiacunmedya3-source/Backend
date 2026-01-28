@@ -1,6 +1,6 @@
 namespace Harfistan.Domain.Entities;
 
-public sealed class UserStats
+public sealed class UserStat
 {
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
