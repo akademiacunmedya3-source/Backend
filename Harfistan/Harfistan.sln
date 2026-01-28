@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{AAD339EE-2E61-4CE7-A8B0-4C2FD9FAB829}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{663E54EA-FFCC-4B39-ABBA-9050048BF309}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{FAAA66CD-97B2-4807-BE85-6BF53F0F60FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harfistan.Domain", "Core\Harfistan.Domain\Harfistan.Domain.csproj", "{BF289742-73C7-4DE7-A701-8812F945176E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harfistan.Application", "Core\Harfistan.Application\Harfistan.Application.csproj", "{9FC74264-AD57-41CD-9D73-CF6121A9915F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harfistan.Persistence", "Infrastructure\Harfistan.Persistence\Harfistan.Persistence.csproj", "{DA7ABB97-81BD-457A-B4A1-F79E8AAF9A61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harfistan.Infrastructure", "Infrastructure\Harfistan.Infrastructure\Harfistan.Infrastructure.csproj", "{1D8ABD88-162D-469E-AE01-8E822623EA8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harfistan.API", "Presentation\Harfistan.API\Harfistan.API.csproj", "{F6445BCF-1361-4FFF-BC5F-F77267F807E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BF289742-73C7-4DE7-A701-8812F945176E} = {AAD339EE-2E61-4CE7-A8B0-4C2FD9FAB829}
+		{9FC74264-AD57-41CD-9D73-CF6121A9915F} = {AAD339EE-2E61-4CE7-A8B0-4C2FD9FAB829}
+		{DA7ABB97-81BD-457A-B4A1-F79E8AAF9A61} = {663E54EA-FFCC-4B39-ABBA-9050048BF309}
+		{1D8ABD88-162D-469E-AE01-8E822623EA8E} = {663E54EA-FFCC-4B39-ABBA-9050048BF309}
+		{F6445BCF-1361-4FFF-BC5F-F77267F807E2} = {FAAA66CD-97B2-4807-BE85-6BF53F0F60FC}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF289742-73C7-4DE7-A701-8812F945176E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF289742-73C7-4DE7-A701-8812F945176E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF289742-73C7-4DE7-A701-8812F945176E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF289742-73C7-4DE7-A701-8812F945176E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC74264-AD57-41CD-9D73-CF6121A9915F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC74264-AD57-41CD-9D73-CF6121A9915F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC74264-AD57-41CD-9D73-CF6121A9915F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC74264-AD57-41CD-9D73-CF6121A9915F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA7ABB97-81BD-457A-B4A1-F79E8AAF9A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA7ABB97-81BD-457A-B4A1-F79E8AAF9A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA7ABB97-81BD-457A-B4A1-F79E8AAF9A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA7ABB97-81BD-457A-B4A1-F79E8AAF9A61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D8ABD88-162D-469E-AE01-8E822623EA8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D8ABD88-162D-469E-AE01-8E822623EA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D8ABD88-162D-469E-AE01-8E822623EA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D8ABD88-162D-469E-AE01-8E822623EA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6445BCF-1361-4FFF-BC5F-F77267F807E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6445BCF-1361-4FFF-BC5F-F77267F807E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6445BCF-1361-4FFF-BC5F-F77267F807E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6445BCF-1361-4FFF-BC5F-F77267F807E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
