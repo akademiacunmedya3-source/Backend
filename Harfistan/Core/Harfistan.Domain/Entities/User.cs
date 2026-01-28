@@ -13,7 +13,7 @@ public sealed class User
     public string? AvatarUrl { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
-    public UserStats? Stats { get; set; }
+    public UserStat? Stats { get; set; }
     public List<UserSession> Sessions { get; set; } = new();
     public List<GameResult> GameResults { get; set; } = new();
 }

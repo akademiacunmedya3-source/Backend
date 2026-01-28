@@ -24,7 +24,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         
         builder.HasOne(u => u.Stats)
             .WithOne(s => s.User)
-            .HasForeignKey<UserStats>(s => s.UserId)
+            .HasForeignKey<UserStat>(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
