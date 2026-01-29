@@ -14,7 +14,7 @@ public class GameResultMapping : IEntityTypeConfiguration<GameResult>
         builder.Property(gr => gr.GuessesJson).IsRequired().HasDefaultValue("[]");
         builder.Property(gr => gr.DeviceType).HasMaxLength(20);
 
-        builder.HasIndex(gr => new { gr.UserId, gr.DailyWord }).IsUnique();
+        builder.HasIndex(gr => new { gr.UserId, gr.DailyWordId }).IsUnique();
         builder.HasIndex(gr => gr.PlayedAt);
         builder.HasIndex(gr => gr.IsWin);
         
