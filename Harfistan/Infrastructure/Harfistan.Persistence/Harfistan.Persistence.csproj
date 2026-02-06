@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Core\Harfistan.Application\Harfistan.Application.csproj" />
       <ProjectReference Include="..\..\Core\Harfistan.Domain\Harfistan.Domain.csproj" />
     </ItemGroup>
 
