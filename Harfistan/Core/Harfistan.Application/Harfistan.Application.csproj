@@ -23,4 +23,8 @@
       <ProjectReference Include="..\Harfistan.Domain\Harfistan.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Games\Commands\" />
+    </ItemGroup>
+
 </Project>
