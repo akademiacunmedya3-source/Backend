@@ -16,10 +16,64 @@ public record SubmitGameResultCommand : IRequest<GameResultDTO>
     public string? DeviceType { get; set; }
 }
 
-public class SubmitGameResultCommandHandler
+public class SubmitGameResultCommandHandler: IRequestHandler<SubmitGameResultCommand, GameResultDTO>
 {
+    public ValueTask<GameResultDTO> Handle(SubmitGameResultCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
     
-    
+    private async Task UpdateUserStat(UserStat stat, SubmitGameResultCommand request,
+        CancellationToken cancellationToken)
+    {
+        stat.GamesPlayed++;
+
+        if (request.IsWin)
+            stat.GamesWon++;
+        else
+            stat.GamesLost++;
+
+        stat.WinRate = stat.GamesPlayed > 0
+            ? Math.Round((double)stat.GamesWon / stat.GamesPlayed * 100, 2) : 0;
+        
+        var today = DateTime.UtcNow.Date;
+        var yesterday = today.AddDays(-1);
+
+        if (request.IsWin)
+        {
+            if(stat.LastPlayedDate == yesterday)
+                stat.CurrentStreak++;
+            else if (stat.LastPlayedDate != today)
+                stat.CurrentStreak = 1;
+
+
+            if (stat.CurrentStreak > stat.MaxStreak)
+                stat.MaxStreak = stat.CurrentStreak;
+            
+            stat.MaxStreak = Math.Max(stat.MaxStreak, stat.CurrentStreak);
+        }
+        else
+            stat.CurrentStreak = 0;
+        
+        stat.LastPlayedDate = today;
+
+        if (request.IsWin && request.Attempts >= 1 && request.Attempts <= 6)
+        {
+            var distribution = JsonSerializer.Deserialize<List<int>>(stat.GuessDistribution) ?? new List<int> { 0, 0, 0, 0, 0, 0 };
+            distribution[request.Attempts - 1]++;
+            stat.GuessDistribution = JsonSerializer.Serialize(distribution);
+        }
+
+        if (request.IsWin)
+        {
+            var totalWinAttempts = (stat.AverageAttempts * (stat.GamesWon - 1)) + request.Attempts;
+            stat.AverageAttempts = Math.Round(totalWinAttempts / stat.GamesWon, 2);
+        }
+        
+        stat.TotalPlayTimeSeconds += request.DurationSeconds;
+        stat.UpdatedAt = DateTime.UtcNow;
+        
+    }
     
     private static UserStatsDto MapToStatsDto(UserStat stat)
     {
@@ -38,4 +92,6 @@ public class SubmitGameResultCommandHandler
             AverageAttempts = stat.AverageAttempts,
         };
     }
+
+   
 }
