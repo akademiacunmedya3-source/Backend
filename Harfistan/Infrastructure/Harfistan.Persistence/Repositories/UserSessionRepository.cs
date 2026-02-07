@@ -5,18 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Harfistan.Persistence.Repositories;
 
-public class UserSessionRepository(HarfistanDbContext _context) : ICommandRepository<UserSession, int>, IQueryRepository<UserSession, int>
+public class UserSessionRepository(HarfistanDbContext _context)  : IUserSessionRepository
 {
     public DbSet<UserSession> Table => _context.Set<UserSession>();
-    public async Task<UserSession> AddAsync(UserSession entity, CancellationToken cancellationToken = default)=> Table.AddAsync(entity, cancellationToken).Result.Entity;
-    public async Task<UserSession> RemoveAsync(int id, CancellationToken cancellationToken = default)
-    {
-        UserSession entity = await Table.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-        Table.Remove(entity);
-        return entity;
-    }
-    public UserSession Update(UserSession entity, CancellationToken cancellationToken = default) => Table.Update(entity).Entity;
-    public async Task<int> SaveAsync(CancellationToken cancellationToken = default) => await _context.SaveChangesAsync(cancellationToken);
-    public IQueryable<UserSession> GetAll(CancellationToken cancellationToken = default) => Table.AsQueryable();
-    public async Task<UserSession> GetByIdAsync(int id, CancellationToken cancellationToken = default) => await Table.AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) => await _context.SaveChangesAsync(cancellationToken); 
+    public async Task<UserSession> AddAsync(UserSession session, CancellationToken cancellationToken = default) => Table.AddAsync(session, cancellationToken).Result.Entity;
+    public async Task<List<UserSession>> GetActiveSessionsAsync(Guid userId, CancellationToken cancellationToken = default) => await Table.Where(x => x.UserId == userId && x.IsActive).ToListAsync(cancellationToken);
+    public async Task<UserSession?> GetByIdAsync(int id, CancellationToken cancellationToken = default) => await Table.FindAsync(id, cancellationToken);
+    public async Task UpdateAsync(UserSession session, CancellationToken cancellationToken = default) => Table.Update(session);
 }
