@@ -1,5 +1,7 @@
 using System.Text.Json;
+using Harfistan.Application.Abstractions.Repositories;
 using Harfistan.Application.DTOs.Game;
+using Harfistan.Application.Exceptions;
 using Harfistan.Domain.Entities;
 using Mediator;
 
@@ -16,11 +18,69 @@ public record SubmitGameResultCommand : IRequest<GameResultDTO>
     public string? DeviceType { get; set; }
 }
 
-public class SubmitGameResultCommandHandler: IRequestHandler<SubmitGameResultCommand, GameResultDTO>
+public class SubmitGameResultCommandHandler(IDailyWordRepository dailyWordRepository, IGameResultRepository gameResultRepository, IUserRepository userRepository): IRequestHandler<SubmitGameResultCommand, GameResultDTO>
 {
-    public ValueTask<GameResultDTO> Handle(SubmitGameResultCommand request, CancellationToken cancellationToken)
+    public async ValueTask<GameResultDTO> Handle(SubmitGameResultCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var dailyWord = await dailyWordRepository.GetTodayAsync(cancellationToken) ?? throw new NotFoundException("Daily word not found for today");
+
+        var existingResult =
+            await gameResultRepository.GetByUserAndDailyWordAsync(request.UserId, dailyWord.Id, cancellationToken);
+
+        if (existingResult is not null)
+            throw new AlreadyExistsException($"User {request.UserId} has already played today");
+        
+        var user = await userRepository.GetByIdAsync(request.UserId, cancellationToken) ?? throw new NotFoundException($"User", request.UserId);
+        if (user.Stats is null)
+            throw new NotFoundException($"User stats not found for user {request.UserId}");
+
+        var gameResult = new GameResult
+        {
+            UserId = request.UserId,
+            DailyWordId = dailyWord.Id,
+            IsWin = request.IsWin,
+            Attempts = request.Attempts,
+            DurationSeconds = request.DurationSeconds,
+            GuessesJson = JsonSerializer.Serialize(request.Guesses),
+            IsHardMode = request.IsHardMode,
+            DeviceType = request.DeviceType,
+            PlayedAt = DateTime.UtcNow,
+            CompletedAt = DateTime.UtcNow
+        };
+        
+        await gameResultRepository.AddAsync(gameResult, cancellationToken);
+        
+        dailyWord.TotalAttempts++;
+        dailyWord.TotalPlayers++;
+        
+        if(request.IsWin) 
+            dailyWord.TotalWins++;
+        else
+            dailyWord.TotalLosses++;
+        
+        dailyWord.WinRate = dailyWord.TotalAttempts > 0 
+            ? Math.Round((double)dailyWord.TotalWins / dailyWord.TotalAttempts * 100, 2) : 0;
+
+        if (request.IsWin)
+        {
+            var totalWinAttempts = (dailyWord.AverageAttempts * (dailyWord.TotalWins - 1)) + request.Attempts;
+            dailyWord.AverageAttempts = Math.Round(totalWinAttempts / dailyWord.TotalWins, 2);
+        }
+        
+        await dailyWordRepository.UpdateAsync(dailyWord, cancellationToken);
+        
+        await UpdateUserStat(user.Stats, request, cancellationToken);
+        
+        await dailyWordRepository.SaveChangesAsync(cancellationToken);
+
+        return new GameResultDTO()
+        {
+            Success = true,
+            Message = request.IsWin ? "Congratulations!" : "Better luck tomorrow!",
+            GameResultId = gameResult.Id,
+            UpdatedStats = MapToStatsDto(user.Stats),
+            CorrectWord = request.IsWin ? null : dailyWord.Word.Text
+        };
     }
     
     private async Task UpdateUserStat(UserStat stat, SubmitGameResultCommand request,
