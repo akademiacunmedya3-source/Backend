@@ -3,7 +3,6 @@ namespace Harfistan.Domain.Entities;
 public sealed class UserStat
 {
     public Guid UserId { get; set; }
-    public User User { get; set; } = null!;
     public int GamesPlayed { get; set; }
     public int GamesWon { get; set; }
     public int GamesLost { get; set; }
@@ -16,4 +15,5 @@ public sealed class UserStat
     public int TotalPlayTimeSeconds { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public User User { get; set; } = null!;
 }
