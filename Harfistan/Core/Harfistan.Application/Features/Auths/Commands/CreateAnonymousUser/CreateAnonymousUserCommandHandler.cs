@@ -9,7 +9,7 @@ namespace Harfistan.Application.Features.Auths.Commands.CreateAnonymousUser;
 
 public record CreateAnonymousUserCommand(string DeviceId="") : IRequest<AnonymousUserDTO>;
 
-public class CreateAnonymousUserCommandHandler(ICommandRepository<User> _commandRepository, IQueryRepository<User> _queryRepository) : IRequestHandler<CreateAnonymousUserCommand, AnonymousUserDTO>
+public class CreateAnonymousUserCommandHandler(ICommandRepository<User, Guid> _commandRepository, IQueryRepository<User, Guid> _queryRepository) : IRequestHandler<CreateAnonymousUserCommand, AnonymousUserDTO>
 {
     public async ValueTask<AnonymousUserDTO> Handle(CreateAnonymousUserCommand request, CancellationToken cancellationToken)
     {

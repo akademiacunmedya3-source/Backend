@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Harfistan.Persistence.Repositories;
 
-public class UserRepository(HarfistanDbContext _context) : ICommandRepository<User>, IQueryRepository<User>
+public class UserRepository(HarfistanDbContext _context) : ICommandRepository<User, Guid>, IQueryRepository<User, Guid>
 {
     public DbSet<User> Table => _context.Set<User>();
     public async Task<User> AddAsync(User entity, CancellationToken cancellationToken = default)=> Table.AddAsync(entity, cancellationToken).Result.Entity;
