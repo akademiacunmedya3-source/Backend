@@ -1,7 +1,7 @@
 namespace Harfistan.Application.DTOs.Auths;
 
 public record AnonymousUserDTO(
-    Guid UserId,
+    int UserId,
     bool IsNewUser, 
     string DeviceId = "",
     string DisplayName = ""

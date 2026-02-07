@@ -4,7 +4,7 @@ namespace Harfistan.Domain.Entities;
 
 public sealed class User
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string? Email { get; set; }
     public string? GoogleId { get; set; }
     public string? DeviceId { get; set; }

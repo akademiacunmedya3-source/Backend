@@ -3,7 +3,7 @@ namespace Harfistan.Domain.Entities;
 public sealed class UserSession
 {
     public int Id { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public string? IpAddress { get; set; }
     public string? UserAgent { get; set; }
     public string? DeviceType { get; set; }

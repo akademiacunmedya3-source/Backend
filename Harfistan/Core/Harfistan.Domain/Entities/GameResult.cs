@@ -3,7 +3,7 @@ namespace Harfistan.Domain.Entities;
 public sealed class GameResult
 {
     public int Id { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
     public int DailyWordId { get; set; }
     public bool IsWin { get; set; }
     public int Attempts { get; set; }
