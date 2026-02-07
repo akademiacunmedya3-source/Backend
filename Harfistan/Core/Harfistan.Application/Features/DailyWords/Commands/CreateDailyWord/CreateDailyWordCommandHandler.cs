@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using Harfistan.Application.Abstractions.Repositories;
+using Harfistan.Application.Exceptions;
 using Harfistan.Domain.Entities;
 using Mediator;
 
@@ -14,19 +15,19 @@ public class CreateDailyWordCommandHandler(IDailyWordRepository dailyWordReposit
     {
         var existingDailyWord = await dailyWordRepository.GetByDateAsync(request.Date.Date, cancellationToken);
         if (existingDailyWord is not null)
-            throw new InvalidOperationException($"Daily word already exists for {request.Date:yyyy-MM-dd}");
+            throw new AlreadyExistsException($"DailyWord", request.Date.Date);
 
         Word word;
         if (request.WordId.HasValue)
         {
-            word = await wordRepository.GetByIdAsync(request.WordId.Value, cancellationToken) ?? throw new KeyNotFoundException($"Word with ID{request.WordId} not found");
+            word = await wordRepository.GetByIdAsync(request.WordId.Value, cancellationToken) ?? throw new NotFoundException($"Word", request.WordId.Value);
         }
         else
         {
             word = await wordRepository.GetRandomWordAsync(request.WordLength, cancellationToken);
 
             if (word is null)
-                throw new InvalidOperationException($"No words found with length{request.WordLength}");
+                throw new NotFoundException($"No common words found with length {request.WordLength}");
         }
         
         var wordHash = GenerateWordHash(word.Text);
