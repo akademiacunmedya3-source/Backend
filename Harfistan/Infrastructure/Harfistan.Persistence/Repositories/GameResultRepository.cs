@@ -12,7 +12,7 @@ public class GameResultRepository(HarfistanDbContext context) : IGameResultRepos
     public async Task<GameResult?> GetByUserAndDailyWordAsync(Guid userId, int dailyWordId, CancellationToken cancellationToken = default) => await Table.FirstOrDefaultAsync(x => x.UserId == userId && x.DailyWordId == dailyWordId, cancellationToken);
     public async Task<bool> HasUserPlayedTodayAsync(Guid userId, CancellationToken cancellationToken = default) => await Table.AnyAsync(x => x.UserId == userId && x.PlayedAt == DateTime.Today, cancellationToken);
     public async Task<GameResult?> AddAsync(GameResult gameResult, CancellationToken cancellationToken = default) => Table.AddAsync(gameResult).Result.Entity;
-    public Task<List<GameResult>> GetUserHistoryPagedAsync(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
+    public Task<(List<GameResult> Games, int TotalCount)> GetUserHistoryPagedAsync(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

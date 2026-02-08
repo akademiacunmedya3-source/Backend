@@ -23,8 +23,4 @@
       <ProjectReference Include="..\Harfistan.Domain\Harfistan.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\Games\Queries\GetGameHistory\" />
-    </ItemGroup>
-
 </Project>
