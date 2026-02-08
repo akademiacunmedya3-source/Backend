@@ -73,7 +73,7 @@ public class GetLeaderBoardQueryHandler(IUserRepository userRepository) : IReque
     }
     
     private static double CalculateScore(
-        UserStat stats,
+        UserStat? stats,
         LeaderboardType type)
     {
         if (stats == null) return 0;
