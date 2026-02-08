@@ -1,4 +1,5 @@
 using Harfistan.Application.Abstractions.Repositories;
+using Harfistan.Application.Features.LeaderBoards.Queries.GetLeaderBoard;
 using Harfistan.Domain.Entities;
 using Harfistan.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -13,4 +14,18 @@ public class UserRepository(HarfistanDbContext _context) : IUserRepository
     public async Task<User?> GetByDeviceIdAsync(string deviceId, CancellationToken cancellationToken = default) => await Table.FirstOrDefaultAsync(x => x.DeviceId == deviceId, cancellationToken);
     public async Task<User?> GetByGoogleIdAsync(string googleId, CancellationToken cancellationToken = default) => await Table.FirstOrDefaultAsync(x => x.GoogleId == googleId, cancellationToken); 
     public async Task<User> AddAsync(User user, CancellationToken cancellationToken = default) => Table.AddAsync(user, cancellationToken).Result.Entity;
+    public Task<List<User>> GetTopPlayersAsync(int count, LeaderboardType leaderboardType, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<int> GetUserRankAsync(Guid userId, LeaderboardType leaderboardType, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<int> GetTotalPlayersCountAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
 }

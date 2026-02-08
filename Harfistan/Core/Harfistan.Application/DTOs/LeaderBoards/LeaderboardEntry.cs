@@ -1,4 +1,4 @@
-namespace Harfistan.Application.Features.LeaderBoards;
+namespace Harfistan.Application.DTOs.LeaderBoards;
 
 public class LeaderboardEntry
 {
