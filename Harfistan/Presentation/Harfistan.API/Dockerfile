@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -6,13 +6,15 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Presentation/Harfistan.API/Harfistan.API.csproj", "Presentation/Harfistan.API/"]
-COPY ["Core/Harfistan.Domain/Harfistan.Domain.csproj", "Core/Harfistan.Domain/"]
-COPY ["Infrastructure/Harfistan.Persistence/Harfistan.Persistence.csproj", "Infrastructure/Harfistan.Persistence/"]
-COPY ["Core/Harfistan.Application/Harfistan.Application.csproj", "Core/Harfistan.Application/"]
-RUN dotnet restore "Presentation/Harfistan.API/Harfistan.API.csproj"
+
+COPY ["Harfistan/Presentation/Harfistan.API/Harfistan.API.csproj", "Harfistan/Presentation/Harfistan.API/"]
+COPY ["Harfistan/Core/Harfistan.Domain/Harfistan.Domain.csproj", "Harfistan/Core/Harfistan.Domain/"]
+COPY ["Harfistan/Infrastructure/Harfistan.Persistence/Harfistan.Persistence.csproj", "Harfistan/Infrastructure/Harfistan.Persistence/"]
+COPY ["Harfistan/Core/Harfistan.Application/Harfistan.Application.csproj", "Harfistan/Core/Harfistan.Application/"]
+
+RUN dotnet restore "Harfistan/Presentation/Harfistan.API/Harfistan.API.csproj"
 COPY . .
-WORKDIR "/src/Presentation/Harfistan.API"
+WORKDIR "/src/Harfistan/Presentation/Harfistan.API"
 RUN dotnet build "./Harfistan.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
