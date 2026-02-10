@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Harfistan.API.Controllers;
 
+[ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
 public class AuthsController(IMediator mediator) : ControllerBase
