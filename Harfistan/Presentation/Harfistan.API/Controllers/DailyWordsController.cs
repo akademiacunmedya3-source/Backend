@@ -1,4 +1,3 @@
-using Harfistan.Application.DTOs.DailyWords;
 using Harfistan.Application.Features.DailyWords.Commands.CreateDailyWord;
 using Harfistan.Application.Features.DailyWords.Queries;
 using Mediator;
@@ -32,7 +31,7 @@ public class DailyWordsController(IMediator mediator) : ControllerBase
     [HttpGet("today")]
     [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetTodaysDailyWord([FromQuery] Guid? userId = null)
+    public async Task<IActionResult> GetTodayDailyWord([FromQuery] Guid? userId = null)
     {
         var query = new GetDailyWordQuery(userId, DateTime.Today);
         return Ok(await mediator.Send(query));
@@ -67,7 +66,7 @@ public class DailyWordsController(IMediator mediator) : ControllerBase
     /// </summary>
     /// <remarks>
     /// Manually create a daily word for a specific date.
-    /// If wordId not provided, random word will be selected.
+    /// If a wordId not provided, a random word will be selected.
     /// 
     /// Sample request:
     /// 
@@ -78,7 +77,6 @@ public class DailyWordsController(IMediator mediator) : ControllerBase
     ///     }
     /// 
     /// </remarks>
-    /// <param name="command">Daily word creation data</param>
     /// <returns>Created daily word ID</returns>
     /// <response code="201">Daily word created successfully</response>
     /// <response code="400">If date is in the past or word length invalid</response>
